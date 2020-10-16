@@ -1,6 +1,7 @@
 import { Router } from "express";
 import OrphanagesController from "./controllers/orphanagesController";
-import UsersControllers from "./controllers/usersControllers";
+import UsersController from "./controllers/usersController";
+import AuthController from "./controllers/authController";
 
 import uploadConfig from "./config/upload";
 import multer from "multer";
@@ -12,6 +13,7 @@ routes.post("/orphanages", upload.array("images"), OrphanagesController.create);
 routes.get("/orphanages", OrphanagesController.index);
 routes.get("/orphanages/:id", OrphanagesController.show);
 
-routes.post("/users", UsersControllers.store)
+routes.post("/users", UsersController.store)
+routes.post("/auth", AuthController.authenticate)
 
 export default routes;
