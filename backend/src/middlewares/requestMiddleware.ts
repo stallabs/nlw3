@@ -6,7 +6,6 @@ import { Request, Response, NextFunction } from 'express';
 export default {
   checkSyntaxError(err: any, req: Request, res: Response, next: NextFunction) {
     if (err instanceof SyntaxError) {
-      console.error(err);
       return res.status(400).send({ status: 400, detail: err.message });
     }
 
@@ -14,8 +13,9 @@ export default {
   },
 
   isBody (req: Request, res: Response, next: NextFunction) {
-    if (Object.keys(req.body).length === 0)
+    if (Object.keys(req.body).length === 0) {
       return res.status(400).send({ status: 400, detail: "Invalid Content-Type header"});
+    }
 
     return next()
   }
