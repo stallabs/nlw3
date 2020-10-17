@@ -10,7 +10,7 @@ api.interceptors.response.use(
   },
   function (err) {
     if (err?.response?.status === 401) {
-      console.log(err?.response?.status);
+      //console.log(err?.response?.status);
 
       window.localStorage.clear();
       window.location.replace("/login");

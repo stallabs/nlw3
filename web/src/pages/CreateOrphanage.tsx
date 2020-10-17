@@ -23,6 +23,14 @@ export default function CreateOrphanage() {
   const [images, setImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
 
+  function firstCharacterUpper(params: String) {
+    let firstCharacter = params.slice(0, 1);
+    let phrase = params.slice(1, params.length);
+    console.log(firstCharacter + phrase);
+
+    return firstCharacter.toUpperCase() + phrase;
+  }
+
   function handleMapClick(event: LeafletMouseEvent) {
     const { lat, lng } = event.latlng;
     setPosition({
@@ -37,8 +45,8 @@ export default function CreateOrphanage() {
 
     const data = new FormData();
 
-    data.append("name", name);
-    data.append("about", about);
+    data.append("name", firstCharacterUpper(name));
+    data.append("about", firstCharacterUpper(about));
 
     // controle de erro coordenadas
     latitude !== 0
@@ -49,7 +57,7 @@ export default function CreateOrphanage() {
       ? data.append("longitude", String(longitude))
       : (erroControle = 1);
 
-    data.append("instructions", instructions);
+    data.append("instructions", firstCharacterUpper(instructions));
 
     if (opening_hoursStart > opening_hoursEnd) {
       data.append(
@@ -159,6 +167,7 @@ export default function CreateOrphanage() {
                 </label>
               </div>
               <input
+                accept="image/*"
                 multiple
                 onChange={handleSelectImage}
                 type="file"

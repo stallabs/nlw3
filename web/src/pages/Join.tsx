@@ -64,9 +64,17 @@ function Join() {
             </div>
 
             <div className="input-block">
-              <label htmlFor="password">Senha</label>
+              <label htmlFor="password">
+                Senha
+                {password !== "" && password.length < 6 ? (
+                  <span>Mínimo de 6 caracteres</span>
+                ) : (
+                  ""
+                )}
+              </label>
               <input
                 required
+                minLength={6}
                 type="password"
                 id="password"
                 value={password}

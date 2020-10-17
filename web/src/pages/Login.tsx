@@ -12,17 +12,14 @@ function Login() {
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    console.log({ email, password });
+    //console.log({ email, password });
     const data = { email, password };
 
     const resposta = await api.post("auth", data);
-    console.log(resposta);
+    if (resposta == null) alert("Email ou senha incorretos");
 
     localStorage.setItem("token", resposta.data?.token);
-    // console.log(resposta.data?.token);
-    console.log(resposta.data);
-    if (resposta.data.token == null) alert("Não foi meu parceiro");
-    // alert("Usuario cadastrado com sucesso");
+
     history.push("/app");
   }
 
@@ -30,7 +27,7 @@ function Login() {
     if (localStorage.getItem("token")) {
       history.push("/app");
     }
-  }, []);
+  }, [history]);
 
   return (
     <div id="page-login">
