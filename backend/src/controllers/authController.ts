@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken"
 
 import User from "../models/users";
 
+// TODO: improve handling of bad requests
 export default {
   async authenticate(req: Request, res: Response) {
     const usersRepository = getRepository(User);

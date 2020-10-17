@@ -3,6 +3,7 @@ import { getRepository } from "typeorm";
 
 import User from "../models/users";
 
+// TODO: improve handling of bad requests
 export default {
   async store(req: Request, res: Response) {
     const usersRepository = getRepository(User);
