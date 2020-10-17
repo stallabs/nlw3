@@ -16,6 +16,10 @@ export default function CreateOrphanage() {
   const [about, setAbout] = useState("");
   const [instructions, setInstructions] = useState("");
   const [opening_hours, setOpeningHours] = useState("");
+  // conveçao bonitinha
+  const [opening_hoursEnd, setOpeningHoursEnd] = useState("");
+  const [opening_hoursStart, setOpeningHoursStart] = useState("");
+
   const [open_on_weekends, setOpenOnWeekends] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
@@ -31,6 +35,10 @@ export default function CreateOrphanage() {
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     const { latitude, longitude } = position;
+    if (opening_hoursStart < opening_hoursEnd)
+      setOpeningHours(`Das ${opening_hoursEnd} às ${opening_hoursStart}`);
+    setOpeningHours("sllssl");
+    console.log({ opening_hoursStart, opening_hoursEnd });
 
     const data = new FormData();
 
@@ -39,7 +47,18 @@ export default function CreateOrphanage() {
     data.append("latitude", String(latitude));
     data.append("longitude", String(longitude));
     data.append("instructions", instructions);
-    data.append("opening_hours", opening_hours);
+    if (opening_hoursStart > opening_hoursEnd) {
+      data.append(
+        "opening_hours",
+        `Das ${opening_hoursEnd} às ${opening_hoursStart}`
+      );
+    } else {
+      data.append(
+        "opening_hours",
+        `Das ${opening_hoursStart} às ${opening_hoursEnd}`
+      );
+    }
+
     data.append("open_on_weekends", String(open_on_weekends));
 
     images.forEach((image) => {
@@ -94,6 +113,7 @@ export default function CreateOrphanage() {
             <div className="input-block">
               <label htmlFor="name">Nome</label>
               <input
+                required
                 id="name"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
@@ -105,6 +125,7 @@ export default function CreateOrphanage() {
                 Sobre <span>Máximo de 300 caracteres</span>
               </label>
               <textarea
+                required
                 id="name"
                 maxLength={300}
                 value={about}
@@ -124,6 +145,7 @@ export default function CreateOrphanage() {
                 </label>
               </div>
               <input
+                required
                 multiple
                 onChange={handleSelectImage}
                 type="file"
@@ -138,6 +160,7 @@ export default function CreateOrphanage() {
             <div className="input-block">
               <label htmlFor="instructions">Instruções</label>
               <textarea
+                required
                 id="instructions"
                 value={instructions}
                 onChange={(event) => setInstructions(event.target.value)}
@@ -146,16 +169,26 @@ export default function CreateOrphanage() {
 
             <div className="input-block">
               <label htmlFor="opening_hours">Horário de funcionamento</label>
-              <input
-                id="opening_hoursIni"
-                value={opening_hours}
-                onChange={(event) => setOpeningHours(event.target.value)}
-              />
-              <input
-                id="opening_hoursFI"
-                value={opening_hours}
-                onChange={(event) => setOpeningHours(event.target.value)}
-              />
+              <div className="input-time">
+                <label> Das</label>
+                <input
+                  type="number"
+                  id="opening_hoursStart"
+                  min="0"
+                  max="23"
+                  value={opening_hoursStart}
+                  onChange={(event) => setOpeningHoursStart(event.target.value)}
+                />{" "}
+                <label> às</label>
+                <input
+                  type="number"
+                  id="opening_hoursEnd"
+                  min="0"
+                  max="23"
+                  value={opening_hoursEnd}
+                  onChange={(event) => setOpeningHoursEnd(event.target.value)}
+                />
+              </div>
             </div>
 
             <div className="input-block">

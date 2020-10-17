@@ -36,6 +36,7 @@ function Join() {
                 Usuário <span>Máximo de 10 caracteres</span>
               </label>
               <input
+                required
                 id="user"
                 maxLength={10}
                 value={user}
@@ -47,7 +48,7 @@ function Join() {
               <label htmlFor="email">
                 Email
                 <span>
-                  {email != "" && email.indexOf("@") == -1 ? (
+                  {email !== "" && email.indexOf("@") === -1 ? (
                     <div style={{ color: "#ff0000" }}>Email Invalido</div>
                   ) : (
                     ""
@@ -55,6 +56,7 @@ function Join() {
                 </span>
               </label>
               <input
+                required
                 id="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
@@ -64,6 +66,7 @@ function Join() {
             <div className="input-block">
               <label htmlFor="password">Senha</label>
               <input
+                required
                 type="password"
                 id="password"
                 value={password}
@@ -75,9 +78,9 @@ function Join() {
               <label htmlFor="confirm-password">
                 Repetir senha
                 <span>
-                  {password != "" &&
-                  confirmPassword != "" &&
-                  password != confirmPassword ? (
+                  {password !== "" &&
+                  confirmPassword !== "" &&
+                  password !== confirmPassword ? (
                     <div style={{ color: "#ff0000" }}>Senhas diferentes</div>
                   ) : (
                     ""
@@ -85,6 +88,7 @@ function Join() {
                 </span>
               </label>
               <input
+                required
                 id="confirm-password"
                 type="password"
                 value={confirmPassword}

@@ -9,7 +9,7 @@ api.interceptors.response.use(
     return res;
   },
   function (err) {
-    if (err?.response?.status == 401) {
+    if (err?.response?.status === 401) {
       console.log(err?.response?.status);
 
       window.localStorage.clear();
