@@ -13,13 +13,13 @@ export default {
     const user = await usersRepository.findOne({ where: { email }});
 
     if (!user) {
-      return res.send(401);
+      return res.sendStatus(401);
     }
 
     const isPassValid = await bcrypt.compare(password, user.password)
 
     if (!isPassValid) {
-      return res.status(401);
+      return res.sendStatus(401);
     }
 
     const token = jwt.sign({ id: user.id }, 'cyber', { expiresIn: '7d' }); // TODO: access secret through environment variables
