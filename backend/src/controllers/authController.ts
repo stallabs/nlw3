@@ -22,7 +22,7 @@ export default {
       return res.status(401);
     }
 
-    const token = jwt.sign({ id: user.id }, 'cyber', { expiresIn: '7d' }); // TODO: access hash through environment variables
+    const token = jwt.sign({ id: user.id }, 'cyber', { expiresIn: '7d' }); // TODO: access secret through environment variables
 
     return res.json({ "token": token })
   }
