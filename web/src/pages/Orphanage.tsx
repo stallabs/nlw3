@@ -29,9 +29,13 @@ export default function Orphanage() {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   useEffect(() => {
-    api.get(`orphanages/${params.id}`).then((res) => {
-      setOrphanage(res.data);
-    });
+    api
+      .get(`orphanages/${params.id}`, {
+        headers: { authorization: window.localStorage.getItem("token") },
+      })
+      .then((res) => {
+        setOrphanage(res.data);
+      });
   }, [params.id]);
 
   if (!orphanage) {

@@ -10,15 +10,12 @@ function Join() {
   const [user, setUser] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
-
-    const data = new FormData();
-
-    data.append("user", user);
-    data.append("email", email);
-    data.append("password", password);
+    console.log({ email, password, user });
+    const data = { email, password };
 
     await api.post("users", data);
 
@@ -47,7 +44,16 @@ function Join() {
             </div>
 
             <div className="input-block">
-              <label htmlFor="email">Email</label>
+              <label htmlFor="email">
+                Email
+                <span>
+                  {email != "" && email.indexOf("@") == -1 ? (
+                    <div style={{ color: "#ff0000" }}>Email Invalido</div>
+                  ) : (
+                    ""
+                  )}
+                </span>
+              </label>
               <input
                 id="email"
                 value={email}
@@ -58,6 +64,7 @@ function Join() {
             <div className="input-block">
               <label htmlFor="password">Senha</label>
               <input
+                type="password"
                 id="password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
@@ -65,8 +72,24 @@ function Join() {
             </div>
 
             <div className="input-block">
-              <label htmlFor="confirm-password">Repetir senha</label>
-              <input id="confirm-password" />
+              <label htmlFor="confirm-password">
+                Repetir senha
+                <span>
+                  {password != "" &&
+                  confirmPassword != "" &&
+                  password != confirmPassword ? (
+                    <div style={{ color: "#ff0000" }}>Senhas diferentes</div>
+                  ) : (
+                    ""
+                  )}
+                </span>
+              </label>
+              <input
+                id="confirm-password"
+                type="password"
+                value={confirmPassword}
+                onChange={(event) => setConfirmPassword(event.target.value)}
+              />
             </div>
           </fieldset>
 

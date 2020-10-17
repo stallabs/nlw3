@@ -46,7 +46,9 @@ export default function CreateOrphanage() {
       data.append("images", image);
     });
 
-    await api.post("orphanages", data);
+    await api.post("orphanages", data, {
+      headers: { authorization: window.localStorage.getItem("token") },
+    });
 
     alert("Cadastro do orfanato realizado com sucesso");
     history.push("/app");
@@ -145,7 +147,12 @@ export default function CreateOrphanage() {
             <div className="input-block">
               <label htmlFor="opening_hours">Horário de funcionamento</label>
               <input
-                id="opening_hours"
+                id="opening_hoursIni"
+                value={opening_hours}
+                onChange={(event) => setOpeningHours(event.target.value)}
+              />
+              <input
+                id="opening_hoursFI"
                 value={opening_hours}
                 onChange={(event) => setOpeningHours(event.target.value)}
               />
