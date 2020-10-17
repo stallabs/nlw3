@@ -9,7 +9,7 @@ export default function Sidebar() {
   const { goBack } = useHistory();
   return (
     <aside className="app-sidebar">
-      <Link to="/">
+      <Link to="/app">
         <img src={mapMarkerImg} alt="Happy" />
       </Link>
 

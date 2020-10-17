@@ -15,7 +15,6 @@ export default function CreateOrphanage() {
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
   const [instructions, setInstructions] = useState("");
-  const [opening_hours, setOpeningHours] = useState("");
   // conveçao bonitinha
   const [opening_hoursEnd, setOpeningHoursEnd] = useState("");
   const [opening_hoursStart, setOpeningHoursStart] = useState("");
@@ -31,46 +30,60 @@ export default function CreateOrphanage() {
       longitude: lng,
     });
   }
-
+  var erroControle = 0;
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     const { latitude, longitude } = position;
-    if (opening_hoursStart < opening_hoursEnd)
-      setOpeningHours(`Das ${opening_hoursEnd} às ${opening_hoursStart}`);
-    setOpeningHours("sllssl");
-    console.log({ opening_hoursStart, opening_hoursEnd });
 
     const data = new FormData();
 
     data.append("name", name);
     data.append("about", about);
-    data.append("latitude", String(latitude));
-    data.append("longitude", String(longitude));
+
+    // controle de erro coordenadas
+    latitude !== 0
+      ? data.append("latitude", String(latitude))
+      : (erroControle = 1);
+
+    longitude !== 0
+      ? data.append("longitude", String(longitude))
+      : (erroControle = 1);
+
     data.append("instructions", instructions);
+
     if (opening_hoursStart > opening_hoursEnd) {
       data.append(
         "opening_hours",
-        `Das ${opening_hoursEnd} às ${opening_hoursStart}`
+        `Das ${opening_hoursEnd}h às ${opening_hoursStart}h`
       );
     } else {
       data.append(
         "opening_hours",
-        `Das ${opening_hoursStart} às ${opening_hoursEnd}`
+        `Das ${opening_hoursStart}h às ${opening_hoursEnd}h`
       );
     }
 
     data.append("open_on_weekends", String(open_on_weekends));
 
-    images.forEach((image) => {
-      data.append("images", image);
-    });
+    if (images === [] || images.length === 0) {
+      erroControle = 2;
+    } else {
+      images.forEach((image) => {
+        data.append("images", image);
+      });
+    }
 
     await api.post("orphanages", data, {
       headers: { authorization: window.localStorage.getItem("token") },
     });
-
-    alert("Cadastro do orfanato realizado com sucesso");
-    history.push("/app");
+    if (erroControle === 0) {
+      alert("Cadastro do orfanato realizado com sucesso");
+      history.push("/app");
+    } else if (erroControle === 1) {
+      alert("Por favor infrome a localização");
+    } else if (erroControle === 2) {
+      alert("Insira ao menos uma imagem");
+    }
   }
 
   function handleSelectImage(event: ChangeEvent<HTMLInputElement>) {
@@ -103,6 +116,7 @@ export default function CreateOrphanage() {
               />
               {position.latitude !== 0 && (
                 <Marker
+                  required
                   interactive={false}
                   icon={mapIcon}
                   position={[position.latitude, position.longitude]}
@@ -145,7 +159,6 @@ export default function CreateOrphanage() {
                 </label>
               </div>
               <input
-                required
                 multiple
                 onChange={handleSelectImage}
                 type="file"
