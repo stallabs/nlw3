@@ -1,13 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Sidebar from "../components/Sidebar";
+import SidebarSpecial from "../components/SidebarSpecial";
 import "../styles/pages/login.css";
 
 function Login() {
   return (
     <div id="page-login">
-      <Sidebar />
-      {/* sidebar especial */}
+      <SidebarSpecial />
       <main>
         <form className="create-login-form">
           <fieldset>

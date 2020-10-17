@@ -37,3 +37,13 @@ aside.app-sidebar footer a:hover,
 aside.app-sidebar footer button:hover {
   background: #17d6eb;
 }
+aside.app-sidebar .user-name {
+  height: 100%;
+  color: #ffff;
+  padding-top: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+  align-items: center;
+}
